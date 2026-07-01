@@ -20,14 +20,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(onboardingMusicControllerProvider).startMusic();
-    });
   }
 
   @override
   void dispose() {
-    ref.read(onboardingMusicControllerProvider).stopMusic();
     super.dispose();
   }
 

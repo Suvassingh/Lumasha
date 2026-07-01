@@ -23,7 +23,7 @@ class OnboardingMusicController {
     try {
       await _player.setVolume(0.5);
       await _player.setAsset('assets/audio/songs/kidsmusic.mp3');
-      await _player.setLoopMode(LoopMode.one);
+      await _player.setLoopMode(LoopMode.all);
       await _player.play();
       _ref.read(isMusicPlayingProvider.notifier).state = true;
     } catch (e) {
