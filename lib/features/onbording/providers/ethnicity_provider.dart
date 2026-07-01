@@ -23,10 +23,12 @@ class Ethnicity {
   }
 }
 
- final ethnicitiesProvider = FutureProvider<List<Ethnicity>>((ref) async {
+final ethnicitiesProvider =
+    FutureProvider.family<List<Ethnicity>, String>((ref, countryCode) async {
   final response = await Supabase.instance.client
       .from('ethnicities')
       .select()
+      .eq('country_code', countryCode)
       .order('name');
 
   return response.map<Ethnicity>((json) => Ethnicity.fromJson(json)).toList();

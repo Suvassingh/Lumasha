@@ -261,6 +261,7 @@ class _MainCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            SizedBox(height: 8),
             _AvatarXpBlock(),
             SizedBox(height: 8),
             _DailyGoalRow(),
@@ -585,7 +586,69 @@ class AnimatedCircularProgress extends StatelessWidget {
     );
   }
 }
+class _ReviewBannerSkeleton extends StatelessWidget {
+  const _ReviewBannerSkeleton();
 
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF1E1B4B), Color(0xFF3730A3)],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          const Text('🔁', style: TextStyle(fontSize: 22)),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 120,
+                  height: 14,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Container(
+                  width: 80,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Text(
+              '...',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 class _ReviewBanner extends ConsumerWidget {
   const _ReviewBanner();
 
@@ -594,10 +657,10 @@ class _ReviewBanner extends ConsumerWidget {
     final reviewAsync = ref.watch(homeSrsReviewProvider);
 
     return reviewAsync.when(
-      loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
+      loading: () => const _ReviewBannerSkeleton(), 
+      error: (_, __) => const _ReviewBannerSkeleton(), 
       data: (review) {
-        if (review.count == 0) return const SizedBox.shrink();
+
         return GestureDetector(
           onTap: () => context.push('/quiz'),
           child: Container(
@@ -612,24 +675,28 @@ class _ReviewBanner extends ConsumerWidget {
             ),
             child: Row(
               children: [
-                const Text('🔁', style: TextStyle(fontSize: 22)),
+                const Text('🔁', style: TextStyle(fontSize: 28)),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Review due today',
-                        style: TextStyle(
-                          fontSize: 13,
+                      Text(
+                        review.count > 0
+                            ? 'Review due today'
+                            : 'Start your review session',
+                        style: const TextStyle(
+                          fontSize: 18,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFFE0E7FF),
                         ),
                       ),
-                      const Text(
-                        'Spaced repetition • SRS',
-                        style: TextStyle(
-                          fontSize: 10,
+                      Text(
+                        review.count > 0
+                            ? 'Spaced repetition • SRS'
+                            : 'Practice what you\'ve learned',
+                        style: const TextStyle(
+                          fontSize: 18,
                           color: Color(0xFFA5B4FC),
                         ),
                       ),
@@ -637,16 +704,19 @@ class _ReviewBanner extends ConsumerWidget {
                   ),
                 ),
                 Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFEF4444),
+                    color: review.count > 0
+                        ? const Color(0xFFEF4444)
+                        : const Color(0xFF4CAF50),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    '${review.count}',
+                    review.count > 0
+                        ? '${review.count}'
+                        : '✨',
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 18,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                     ),
@@ -912,25 +982,25 @@ class _StreakRow extends ConsumerWidget {
                   data: (p) => Text(
                     '${p?.streakDays ?? 0} Days',
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 24,
                       fontWeight: FontWeight.w800,
                       color: Color(0xFF92400E),
                     ),
                   ),
                   loading: () => const Text('— Days',
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 24,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFF92400E))),
                   error: (_, __) => const Text('0 Days',
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 24,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFF92400E))),
                 ),
                 const Text(
                   'Current streak — keep going!',
-                  style: TextStyle(fontSize: 10, color: Color(0xFFB45309)),
+                  style: TextStyle(fontSize: 16, color: Color(0xFFB45309)),
                 ),
               ],
             ),
@@ -1030,7 +1100,7 @@ class _FlameBounceState extends State<_FlameBounce>
       animation: _rotate,
       builder: (_, __) => Transform.rotate(
         angle: _rotate.value,
-        child: const Text('🔥', style: TextStyle(fontSize: 28)),
+        child: const Text('🔥', style: TextStyle(fontSize: 42)),
       ),
     );
   }

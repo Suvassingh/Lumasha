@@ -40,6 +40,7 @@ class OnboardingNotifier extends StateNotifier<Map<String, dynamic>> {
       'username': uniqueUsername,
       'name': displayName,
       'age_group': state['ageGroup'] ?? '',
+      'country': state['country'] ?? '',
       'ethnicity': state['ethnicity'] ?? '',
       'avatar_emoji': '🧒',
       'daily_goal_min': state['dailyGoalMin'] ?? 10,

@@ -339,7 +339,7 @@ class _AgeTileState extends State<_AgeTile> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(4, (i) {
+      children: List.generate(5, (i) {
         final active = i < current;
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),

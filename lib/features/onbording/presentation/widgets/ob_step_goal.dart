@@ -217,7 +217,7 @@ class _ProgressDots extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(4, (i) {
+      children: List.generate(5, (i) {
         final done = i < current;
         return AnimatedContainer(
           duration: const Duration(milliseconds: 200),

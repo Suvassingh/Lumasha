@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lumasha/features/onbording/presentation/widgets/ob_step_country.dart';
 import 'package:lumasha/features/onbording/providers/onbording_provider.dart';
 import '../../../provider/music_provider.dart';
 import 'widgets/ob_step_welcome.dart';
@@ -71,6 +72,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       case 3:
         return const ObStepGoal();
       case 4:
+        return const ObStepCountry();
+      case 5:
         return const ObStepEthnicity();
       default:
         return const ObStepWelcome();

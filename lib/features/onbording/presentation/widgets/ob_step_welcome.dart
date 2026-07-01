@@ -353,6 +353,7 @@ class _ObStepWelcomeState extends ConsumerState<ObStepWelcome>
                       _buildProgressDot(1, false),
                       _buildProgressDot(2, false),
                       _buildProgressDot(3, false),
+                      _buildProgressDot(4, false), 
                     ],
                   ),
                   const SizedBox(height: 24),
