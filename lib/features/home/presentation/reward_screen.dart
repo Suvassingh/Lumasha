@@ -28,7 +28,7 @@ class RewardScreen extends ConsumerWidget {
                         const Positioned(
                             child: SafeArea(
                                 child: Column(
-                          children: ,
+                          children: [Text("Reward")],
                         )))
                       ],
                     ))
