@@ -22,8 +22,8 @@ class LumashaBottomNav extends StatelessWidget {
             context.go('/profile');
         }
       },
-      selectedItemColor: LumashaColors.background,
-      unselectedItemColor: LumashaColors.primary,
+      selectedItemColor: LumashaColors.primary,
+      unselectedItemColor: LumashaColors.primaryFaint,
       type: BottomNavigationBarType.fixed,
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

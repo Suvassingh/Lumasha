@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lumasha/core/theme/app_colors.dart';
 import 'package:lumasha/features/home/provider/home_provider.dart';
 
-import '../../../widgets/home_bottom_nav.dart';
+import '../../../widgets/lumasha_bottom_nav.dart';
 
 class RewardScreen extends ConsumerWidget {
   const RewardScreen({super.key});
@@ -12,7 +12,7 @@ class RewardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         backgroundColor: LumashaColors.background,
-        bottomNavigationBar: const HomeBottomNav(),
+        bottomNavigationBar: const LumashaBottomNav(),
         body: RefreshIndicator(
             onRefresh: () async {
               ref.invalidate(homeUserProfileProvider);
@@ -28,7 +28,7 @@ class RewardScreen extends ConsumerWidget {
                         const Positioned(
                             child: SafeArea(
                                 child: Column(
-                          children: ,
+                          children: [Text("Reward")],
                         )))
                       ],
                     ))

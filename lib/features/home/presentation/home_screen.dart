@@ -1,5 +1,3 @@
-
-
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -7,9 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lumasha/widgets/home_bottom_nav.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors.dart'; import '../../../widgets/lumasha_bottom_nav.dart';
 import '../provider/home_provider.dart';
-
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -35,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const HomeBottomNav(),
+      bottomNavigationBar: const LumashaBottomNav(),
     );
   }
 }
@@ -63,7 +60,6 @@ class _HeroWithCard extends StatelessWidget {
   }
 }
 
-
 class _AnimatedLumashaTitle extends StatefulWidget {
   const _AnimatedLumashaTitle();
 
@@ -78,7 +74,7 @@ class _AnimatedLumashaTitleState extends State<_AnimatedLumashaTitle>
   late final Duration _cycleDuration = _bounceDuration * _letters.length;
   late final AnimationController _controller;
 
-   double _bounceValue(double t) {
+  double _bounceValue(double t) {
     if (t < 0.5) {
       final double u = t * 2;
       final double bounce = Curves.bounceOut.transform(u);
@@ -104,12 +100,16 @@ class _AnimatedLumashaTitleState extends State<_AnimatedLumashaTitle>
     super.dispose();
   }
 
-   Color _getColorForLetter(String letter) {
+  Color _getColorForLetter(String letter) {
     switch (letter) {
-      case 'लु': return const Color(0xFFF44336);
-      case 'मा': return const Color(0xFF43F436);
-      case 'शा': return const Color(0xfff79313);
-      default: return Colors.black;
+      case 'लु':
+        return const Color(0xFFF44336);
+      case 'मा':
+        return const Color(0xFF43F436);
+      case 'शा':
+        return const Color(0xfff79313);
+      default:
+        return Colors.black;
     }
   }
 
@@ -147,7 +147,6 @@ class _AnimatedLumashaTitleState extends State<_AnimatedLumashaTitle>
   }
 }
 
-
 class _GradientHeader extends ConsumerWidget {
   const _GradientHeader();
 
@@ -157,7 +156,6 @@ class _GradientHeader extends ConsumerWidget {
     final topInset = MediaQuery.of(context).padding.top;
 
     return Container(
-
       height: 100 + topInset,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -206,7 +204,6 @@ class _GradientHeader extends ConsumerWidget {
     );
   }
 }
-
 
 class _HeartsRow extends StatelessWidget {
   final int hearts;
@@ -319,7 +316,7 @@ class _AvatarXpBlock extends ConsumerWidget {
                   right: -6,
                   child: Container(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       color: LumashaColors.primary,
                       borderRadius: BorderRadius.circular(10),
@@ -586,6 +583,7 @@ class AnimatedCircularProgress extends StatelessWidget {
     );
   }
 }
+
 class _ReviewBannerSkeleton extends StatelessWidget {
   const _ReviewBannerSkeleton();
 
@@ -649,6 +647,7 @@ class _ReviewBannerSkeleton extends StatelessWidget {
     );
   }
 }
+
 class _ReviewBanner extends ConsumerWidget {
   const _ReviewBanner();
 
@@ -657,10 +656,9 @@ class _ReviewBanner extends ConsumerWidget {
     final reviewAsync = ref.watch(homeSrsReviewProvider);
 
     return reviewAsync.when(
-      loading: () => const _ReviewBannerSkeleton(), 
-      error: (_, __) => const _ReviewBannerSkeleton(), 
+      loading: () => const _ReviewBannerSkeleton(),
+      error: (_, __) => const _ReviewBannerSkeleton(),
       data: (review) {
-
         return GestureDetector(
           onTap: () => context.push('/quiz'),
           child: Container(
@@ -704,7 +702,8 @@ class _ReviewBanner extends ConsumerWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
                     color: review.count > 0
                         ? const Color(0xFFEF4444)
@@ -712,9 +711,7 @@ class _ReviewBanner extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    review.count > 0
-                        ? '${review.count}'
-                        : '✨',
+                    review.count > 0 ? '${review.count}' : '✨',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
@@ -731,7 +728,6 @@ class _ReviewBanner extends ConsumerWidget {
   }
 }
 
-
 class _MenuGrid extends ConsumerWidget {
   const _MenuGrid();
 
@@ -747,7 +743,7 @@ class _MenuGrid extends ConsumerWidget {
   }
 
   Widget _buildGrid(BuildContext context, List<MenuItem> items) {
-     final pairs = <List<MenuItem>>[];
+    final pairs = <List<MenuItem>>[];
     for (var i = 0; i < items.length; i += 2) {
       pairs.add(items.sublist(i, math.min(i + 2, items.length)));
     }
@@ -770,8 +766,6 @@ class _MenuGrid extends ConsumerWidget {
     );
   }
 }
-
-
 
 class _MenuCard extends ConsumerStatefulWidget {
   final MenuItem item;
@@ -807,16 +801,16 @@ class _MenuCardState extends ConsumerState<_MenuCard>
   void _onTapUp(_) => _ctrl.reverse();
   void _onTapCancel() => _ctrl.reverse();
 
-   Future<void> _handleTap() async {
+  Future<void> _handleTap() async {
     final item = widget.item;
     final userId = ref.read(homeUserProfileProvider).value?.id;
 
     if (userId != null) {
-       await markMenuItemAsSeen(userId, item.id);
-       ref.invalidate(homeMenuItemsProvider);
+      await markMenuItemAsSeen(userId, item.id);
+      ref.invalidate(homeMenuItemsProvider);
     }
 
-     if (mounted) {
+    if (mounted) {
       context.push(item.route);
     }
   }
@@ -825,9 +819,8 @@ class _MenuCardState extends ConsumerState<_MenuCard>
   Widget build(BuildContext context) {
     final item = widget.item;
 
-    final progressColor = item.isNew
-        ? const Color(0xFFF79313)
-        : LumashaColors.accent;
+    final progressColor =
+        item.isNew ? const Color(0xFFF79313) : LumashaColors.accent;
 
     return GestureDetector(
       onTapDown: _onTapDown,
@@ -837,7 +830,7 @@ class _MenuCardState extends ConsumerState<_MenuCard>
       child: ScaleTransition(
         scale: _scale,
         child: Container(
-           padding: const EdgeInsets.fromLTRB(12, 14, 12, 10),
+          padding: const EdgeInsets.fromLTRB(12, 14, 12, 10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(18),
@@ -889,7 +882,8 @@ class _MenuCardState extends ConsumerState<_MenuCard>
                   top: -6,
                   right: -6,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF79313),
                       borderRadius: BorderRadius.circular(8),
@@ -1041,12 +1035,12 @@ class _StreakRow extends ConsumerWidget {
                           ),
                           boxShadow: done
                               ? [
-                            BoxShadow(
-                              color: const Color(0xFFF59E0B)
-                                  .withOpacity(0.4),
-                              blurRadius: 4,
-                            ),
-                          ]
+                                  BoxShadow(
+                                    color: const Color(0xFFF59E0B)
+                                        .withOpacity(0.4),
+                                    blurRadius: 4,
+                                  ),
+                                ]
                               : null,
                         ),
                       ),
