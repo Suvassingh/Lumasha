@@ -103,6 +103,7 @@ class _ObStepAgeState extends ConsumerState<ObStepAge>
                           curve: Curves.easeOutCubic,
                         )),
                         child: GridView.count(
+                          childAspectRatio: 0.8,
                           crossAxisCount: 2,
                           mainAxisSpacing: 12,
                           crossAxisSpacing: 12,
