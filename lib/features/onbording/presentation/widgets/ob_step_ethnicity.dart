@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lumasha/features/onbording/providers/onbording_provider.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../provider/music_provider.dart';
 import '../../../../widgets/ObCTAButton.dart';
 import '../../../../widgets/mascot_widget.dart';
 import '../../../../provider/mascot_provider.dart';
@@ -177,9 +176,6 @@ class _ObStepEthnicityState extends ConsumerState<ObStepEthnicity> {
                       final success = await ref
                           .read(onboardingProvider.notifier)
                           .saveProfile();
-                      await ref
-                          .read(onboardingMusicControllerProvider)
-                          .stopMusic();
                       if (success && context.mounted) {
                         context.go('/home');
                       } else if (context.mounted) {

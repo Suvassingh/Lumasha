@@ -52,7 +52,7 @@ flutter:
     - assets/audio/consonants/
     - assets/audio/songs/
     - assets/images/
-    - assets/images/badges/
+    # - assets/images/badges/
     - assets/images/Boat.svg
     - assets/images/Journey.svg
     - assets/images/Child.svg

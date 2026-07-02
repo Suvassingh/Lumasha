@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../provider/music_provider.dart';
 
 final userProfileProvider = FutureProvider<Map<String, dynamic>?>((ref) async {
   final supabase = Supabase.instance.client;
@@ -23,7 +24,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     with TickerProviderStateMixin {
   late final AnimationController _controller;
   final List<String> _letters = ['L', 'u', 'ma', 'षा'];
-  final AudioPlayer _audioPlayer = AudioPlayer();
   bool _showButton = false;
 
   // Duration for one complete bounce of a single letter (up + down)
@@ -62,21 +62,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   Future<void> _playBackgroundMusic() async {
     try {
-      await _audioPlayer.setVolume(0.7);
-      await _audioPlayer.setAsset('assets/audio/songs/kidsmusic.mp3');
-      await _audioPlayer.setLoopMode(LoopMode.one);
-      await _audioPlayer.play();
+      ref.read(onboardingMusicControllerProvider).startMusic();
     } catch (e) {
       debugPrint('Error playing music: $e');
     }
   }
 
   Future<void> _stopBackgroundMusic() async {
-    await _audioPlayer.stop();
+    ref.read(onboardingMusicControllerProvider).stopMusic();
   }
 
   Future<void> _handleGetStarted() async {
-    await _stopBackgroundMusic();
     final supabase = Supabase.instance.client;
     final user = supabase.auth.currentUser;
 
@@ -100,7 +96,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   void dispose() {
     _controller.dispose();
-    _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -121,7 +116,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height: screenHeight * 0.08),
-
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -132,17 +126,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       final double value = _controller.value;
                       // Determine which letter is currently bouncing
                       final int letterIndex = (value * _letters.length).floor();
-                      final double phase = (value * _letters.length) - letterIndex;
+                      final double phase =
+                          (value * _letters.length) - letterIndex;
                       final bool isActive = letterIndex < _letters.length;
-                      final double translateY = isActive
-                          ? _bounceValue(phase)
-                          : 0.0;
+                      final double translateY =
+                          isActive ? _bounceValue(phase) : 0.0;
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(_letters.length, (index) {
                           return Flexible(
                             child: Transform.translate(
-                              offset: Offset(0, index == letterIndex ? translateY : 0),
+                              offset: Offset(
+                                  0, index == letterIndex ? translateY : 0),
                               child: Text(
                                 _letters[index],
                                 style: TextStyle(
@@ -198,9 +193,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   ),
                 ],
               ),
-
               const Spacer(),
-
               if (_showButton)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 48),
@@ -209,11 +202,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xfff79313),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      textStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                      textStyle: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.w600),
                     ),
                     child: const Text('Get Started'),
                   ),
@@ -227,11 +222,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   Color _getColorForLetter(String letter) {
     switch (letter) {
-      case 'L': return const Color(0xfff79313);
-      case 'u': return const Color(0xfff0665d);
-      case 'ma': return const Color(0xff3b82f6);
-      case 'षा': return const Color(0xfffbcd3c);
-      default: return Colors.black;
+      case 'L':
+        return const Color(0xfff79313);
+      case 'u':
+        return const Color(0xfff0665d);
+      case 'ma':
+        return const Color(0xff3b82f6);
+      case 'षा':
+        return const Color(0xfffbcd3c);
+      default:
+        return Colors.black;
     }
   }
 }
+
